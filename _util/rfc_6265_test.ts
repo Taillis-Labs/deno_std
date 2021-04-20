@@ -2,6 +2,7 @@
 
 import { assertThrows } from "../testing/asserts.ts";
 import {
+  validateCookieDomain,
   validateCookieName,
   validateCookiePath,
   validateCookieValue,
@@ -70,6 +71,20 @@ Deno.test({
       },
       Error,
       path + ": Invalid cookie path char ';'",
+    );
+  },
+});
+
+Deno.test({
+  name: "Cookie Domain Validation",
+  fn(): void {
+    const domain = "-sub.domain.com";
+    assertThrows(
+      (): void => {
+        validateCookieDomain(domain);
+      },
+      Error,
+      'Invalid cookie domain: "-sub.domain.com".',
     );
   },
 });
