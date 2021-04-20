@@ -2,6 +2,8 @@
 // https://tools.ietf.org/html/rfc6265
 
 const FIELD_CONTENT_REGEXP = /^(?=[\x20-\x7E]*$)[^()@<>,;:\\"\[\]?={}\s]+$/;
+const DOMAIN_CONTENT_REGEX =
+  /^(?!-)[A-Za-z0-9-]+([\\-\\.]{1}[a-z0-9]+)*\\.[A-Za-z]{2,6}$/;
 
 /**
  * Validate Path Value.
@@ -53,6 +55,19 @@ export function validateCookieValue(name: string, value: string | null): void {
           c.charCodeAt(0).toString(16),
       );
     }
+  }
+}
+
+/**
+ * Validate Cookie domain.
+ * @param {string} name
+ */
+export function validateCookieDomain(domain: string) {
+  if (domain.length === 0) {
+    return;
+  }
+  if (!DOMAIN_CONTENT_REGEX.test(domain)) {
+    throw new TypeError(`Invalid cookie domain: "${domain}".`);
   }
 }
 
