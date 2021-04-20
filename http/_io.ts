@@ -296,6 +296,9 @@ export async function writeResponse(
  */
 export function parseHTTPVersion(vers: string): [number, number] {
   switch (vers) {
+    case "HTTP/0.9":
+      return [0, 9];
+
     case "HTTP/1.1":
       return [1, 1];
 
